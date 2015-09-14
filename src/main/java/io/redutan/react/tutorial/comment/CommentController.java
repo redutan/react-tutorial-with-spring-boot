@@ -36,7 +36,7 @@ public class CommentController {
     @ResponseStatus(OK)
     @Transactional
     public List<Comment> createComment(@RequestBody @Valid Create create) {
-        repository.saveAndFlush(create.toComment());
+        repository.save(create.toComment());
         return repository.findAll();
     }
 }

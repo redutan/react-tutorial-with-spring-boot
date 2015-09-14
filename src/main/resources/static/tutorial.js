@@ -1,8 +1,8 @@
 /* 구조화된 코드 구조
  - CommentBox
- - CommentList
- - Comment
- - CommentForm
+    - CommentList
+        - Comment
+    - CommentForm
  */
 
 var CommentBox = React.createClass({
@@ -20,6 +20,9 @@ var CommentBox = React.createClass({
         });
     }
     ,handleCommentSubmit: function(comment) {
+        var comments = this.state.data;
+        var newComments = comments.concat([comment]);
+        this.setState({data: newComments});
         $.ajax({
             url: this.props.url
             ,contentType: "application/json"
