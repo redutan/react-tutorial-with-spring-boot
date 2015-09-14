@@ -31,9 +31,11 @@ public class CommentControllerTest {
     @Autowired
     WebApplicationContext wac;
 
+    MockMvc mockMvc;
+
     @Before
     public void setUp() throws Exception {
-
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
     /**
@@ -42,7 +44,6 @@ public class CommentControllerTest {
     @Test
     public void testGetCommentList() throws Exception {
         // Given
-        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 
         // When
         ResultActions result = mockMvc.perform(get("/comments"));

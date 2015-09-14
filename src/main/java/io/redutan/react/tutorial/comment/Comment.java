@@ -21,5 +21,5 @@ public class Comment {
     @GeneratedValue
     private Long id;
     private String author;
-    private String content;
+    private String text;
 }
