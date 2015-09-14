@@ -19,14 +19,18 @@ var CommentBox = React.createClass({
             }.bind(this)
         });
     }
-    ,handleCommentSubmit: function() {
+    ,handleCommentSubmit: function(comment) {
         $.ajax({
             url: this.props.url
-            ,dataType: "json"
-            ,type: "POST"
+            ,contentType: "application/json"
+            ,dataType: 'json'
             ,cache: false
+            ,type: 'POST'
+            ,data: JSON.stringify(comment)
             ,success: function(data) {
-                this.setState(data);
+                console.log("CommentBox.handleCommentSubmit.success");
+                console.log(data);
+                this.setState({data: data});
             }.bind(this)
             ,error: function(xhr, status, err) {
                 console.error(this.props.url, status, err.toString());
@@ -37,10 +41,12 @@ var CommentBox = React.createClass({
         return {data: []}
     }
     ,componentDidMount: function() {
+        console.log("CommentBox.componentDidMount");
         this.loadComponentFromServer();
-        setInterval(this.loadComponentFromServer, this.props.pollInterval)
+        // setInterval(this.loadComponentFromServer, this.props.pollInterval)
     }
     ,render: function () {
+        console.log("CommentBox.render");
         return (
             <div className="commentBox">
                 <h1>Comment</h1>
@@ -53,6 +59,8 @@ var CommentBox = React.createClass({
 
 var CommentList = React.createClass({
     render: function () {
+        console.log("CommentList.render");
+        console.log(this.props.data);
         var commentNodes = this.props.data.map(function (comment) {
             return (
                 <Comment author={comment.author}>
@@ -71,8 +79,8 @@ var CommentList = React.createClass({
 var CommentForm = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
-        var author = React.findDOMNode(this.refs.author).value().trim();
-        var text = React.findDOMNode(this.refs.text).value().trim();
+        var author = React.findDOMNode(this.refs.author).value.trim();
+        var text = React.findDOMNode(this.refs.text).value.trim();
         if (!text || !author) {
             return;
         }
@@ -107,6 +115,6 @@ var Comment = React.createClass({
 });
 
 React.render(
-    <CommentBox url="/comments" pollInterval={2000} />,
+    <CommentBox url="/comments" pollInterval={5000} />,
     document.getElementById("content")
 )
